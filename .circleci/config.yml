@@ -37,8 +37,7 @@ jobs:
       - run:
           name: Upload Coverage
           command: |
-            ls -al
-            ./scripts/codecov.sh
+            .scripts/codecov.sh
       - save_cache:
           key: project-cache
           paths:
