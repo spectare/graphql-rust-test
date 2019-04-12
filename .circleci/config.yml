@@ -36,7 +36,9 @@ jobs:
           command: rustup run nightly cargo test
       - run:
           name: Upload Coverage
-          command: ./scripts/codecov.sh
+          command: |
+            ls -al
+            ./scripts/codecov.sh
       - save_cache:
           key: project-cache
           paths:
