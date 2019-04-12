@@ -33,7 +33,7 @@ jobs:
       #       rustup run stable cargo build
       - run:
           name: Test
-          command: rustup run stable cargo test
+          command: rustup run nightly cargo test
       - run:
           name: Upload Coverage
           command: ./scripts/codecov.sh
