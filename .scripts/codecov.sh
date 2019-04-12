@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Replace 'myproject' by your project name
-REPORT=$(find target/debug -maxdepth 1 -name '<myproject-*' -a ! -name '*.d')
+REPORT=$(find target/debug -maxdepth 1 -name '<graphql_rust_test-*' -a ! -name '*.d')
 
 for file in $REPORT; do
     mkdir -p "target/cov/$(basename $file)"
