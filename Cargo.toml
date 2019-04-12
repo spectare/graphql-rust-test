@@ -2,27 +2,15 @@
 name = "graphql_rust_test"
 version = "0.2.0"
 authors = ["Olger Warnier <info@dvic.io>"]
-description = "Juniper GraphQL with Hyper running a testing interface"
+description = "Juniper GraphQL with Actix running a testing interface"
 license = "BSD-2-Clause"
+edition = "2018"
 
 [dependencies]
+actix-web = "1.0.0-alpha.4"
+env_logger = "0.6"
+futures = "0.1"
 serde = "1.0"
 serde_json = "1.0"
 serde_derive = "1.0"
-url = "1.7"
 juniper = "0.11.1"
-juniper_hyper = "0.2.0"
-
-futures = "0.1"
-tokio = "0.1.8"
-hyper = "0.12"
-tokio-threadpool = "0.1.7"
-pretty_env_logger = "0.2"
-
-[dev-dependencies]
-pretty_env_logger = "0.2"
-reqwest = "0.9"
-
-[dev-dependencies.juniper]
-version = "0.11.1"
-features = ["expose-test-schema", "serde_json"]
