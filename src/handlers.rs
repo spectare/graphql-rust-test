@@ -36,17 +36,37 @@ mod tests {
     //use futures::IntoFuture;
     use actix_service::Service;
     use actix_web::{test, App, http::StatusCode};
+    use crate::schema::create_schema;
 
     #[test]
-    fn test_with_server() {
-      let mut app = test::init_service(
-          App::new() 
-              .service(web::resource("/").to(graphiql))
-      );
-      let req = test::TestRequest::with_header("CONTENT_TYPE", "text/plain").to_request();
-      let resp = test::block_on(app.call(req)).unwrap();
-      assert_eq!(resp.status(), StatusCode::OK);
+    fn test_route_graphiql() {
+        let mut app = test::init_service(
+            App::new() 
+                .service(web::resource("/").to(graphiql))
+        );
+        let req = test::TestRequest::with_header("CONTENT_TYPE", "text/plain").to_request();
+        let resp = test::block_on(app.call(req)).unwrap();
+        assert_eq!(resp.status(), StatusCode::OK);
+        println!("Response: {:?}", &resp)
+    }
 
+    #[test]
+    fn test_route_graphql() {
+        let schema = std::sync::Arc::new(create_schema());
+
+        let mut app = test::init_service(
+            App::new()
+                .data(schema.clone()) 
+                .service(web::resource("/graphql").route(web::post().to_async(graphql)))
+        );
+        let req = test::TestRequest::post()
+            .header("CONTENT_TYPE", "application/json")
+            .uri("/graphql")
+            .set_payload("{ human { id } }")
+            .to_request();
+        let resp = test::block_on(app.call(req)).unwrap();
+        println!("Response: {:?}", &resp);
+        assert_eq!(resp.status(), StatusCode::OK);
     }
 
 }
