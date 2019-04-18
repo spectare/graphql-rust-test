@@ -1,5 +1,6 @@
-use std::io;
-
+//! Actix web juniper example
+//!
+//! A simple example integrating juniper in actix-web
 #[macro_use]
 extern crate juniper;
 extern crate futures;
@@ -7,7 +8,7 @@ extern crate actix_service;
 
 mod schema;
 mod handlers;
-
+use std::io;
 use actix_web::middleware::cors::Cors;
 use actix_web::{http, middleware, web, App, HttpServer};
 
@@ -25,14 +26,6 @@ fn main() -> io::Result<()> {
         App::new()
             .data(schema.clone())
             .wrap(middleware::Logger::default())
-            // .wrap(
-            // Cors::new() // <- Construct CORS middleware builder
-            //    .allowed_origin("*")
-            //    .send_wildcard()
-            //    .allowed_methods(vec!["GET", "POST", "OPTIONS"])
-            //    .allowed_headers(vec![http::header::AUTHORIZATION, http::header::ACCEPT])
-            //    .allowed_header(http::header::CONTENT_TYPE)
-            //    .max_age(3600))
             .service(web::resource("/graphql").route(web::post().to_async(handlers::graphql)))
             .service(web::resource("/graphiql").route(web::get().to(handlers::graphiql)))
     })

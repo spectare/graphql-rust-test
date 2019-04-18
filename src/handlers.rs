@@ -18,6 +18,7 @@ pub fn graphql(
     st: web::Data<Arc<Schema>>,
     data: web::Json<GraphQLRequest>,
 ) -> impl Future<Item = HttpResponse, Error = Error> {
+    println!("Data: {:?}", data);
     web::block(move || {
         let res = data.execute(&st, &());
         Ok::<_, serde_json::error::Error>(serde_json::to_string(&res)?)
@@ -36,6 +37,7 @@ mod tests {
     //use futures::IntoFuture;
     use actix_service::Service;
     use actix_web::{test, App, http::StatusCode};
+    use bytes::Bytes;
     use crate::schema::create_schema;
 
     #[test]
@@ -59,10 +61,13 @@ mod tests {
                 .data(schema.clone()) 
                 .service(web::resource("/graphql").route(web::post().to_async(graphql)))
         );
+        //let obj = serde_json::from_slice::<MyObj>(&body)?;
+
         let req = test::TestRequest::post()
             .header("CONTENT_TYPE", "application/json")
             .uri("/graphql")
-            .set_payload("{ human { id } }")
+            .set_payload(Bytes::from_static(b"{\"query\": \"{hero{name}}\"}"))
+            //.set_payload(r#"{"query": "{hero{name}}"}"#)
             .to_request();
         let resp = test::block_on(app.call(req)).unwrap();
         println!("Response: {:?}", &resp);

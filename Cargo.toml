@@ -7,8 +7,9 @@ license = "BSD-2-Clause"
 edition = "2018"
 
 [dependencies]
-actix-web = "1.0.0-alpha.5"
+actix-web = "1.0.0-alpha.6"
 actix-service = "0.3.6"
+bytes = "0.4.12"
 env_logger = "0.6"
 futures = "0.1"
 serde = "1.0"
