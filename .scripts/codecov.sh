@@ -4,7 +4,7 @@ REPORT=$(find target/debug -maxdepth 1 -name 'graphql_rust_test-*' -a ! -name '*
 
 for file in $REPORT; do
     mkdir -p "target/cov/$(basename $file)"
-    sudo kcov --exclude-pattern=/.cargo,/usr/lib --verify "target/cov/$(basename $file)" "$file"
+    sudo kcov --include-pattern=rori_core --exclude-pattern=/.cargo,/usr/lib --verify "target/cov/$(basename $file)" "$file"
 done
 
 wget -O - -q "https://codecov.io/bash" > .codecov
