@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: olger/rust-build:1-1.33.0
+      - image: spectare/rust-build:latest
 
     environment:
       # Set your codecov token if your repository is private.
@@ -25,12 +25,12 @@ jobs:
             rustup run nightly rustc --version --verbose
             rustup run nightly cargo --version --verbose
             rustup run nightly cargo build
-      # - run:
-      #     name: Stable Build
-      #     command: |
-      #       rustup run stable rustc --version --verbose
-      #       rustup run stable cargo --version --verbose
-      #       rustup run stable cargo build
+      - run:
+          name: Stable Build
+          command: |
+            rustup run stable rustc --version --verbose
+            rustup run stable cargo --version --verbose
+            rustup run stable cargo build
       - run:
           name: Test
           command: rustup run nightly cargo test

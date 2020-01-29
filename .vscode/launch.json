@@ -4,6 +4,7 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
+
     {
       "type": "lldb",
       "request": "launch",
@@ -25,13 +26,16 @@
     {
       "type": "lldb",
       "request": "launch",
-      "name": "Debug unit tests in executable 'graphql_rust_test'",
+      "name": "Debug unit test 'test_route_graphql'",
+      "sourceLanguages": ["rust"],
       "cargo": {
         "args": [
           "test",
+          //"--nocapture"
           "--no-run",
-          "--bin=graphql_rust_test",
-          "--package=graphql_rust_test"
+          // "--bin=graphql_rust_test",
+          // "--package=graphql_rust_test"
+          "test_route_graphql"
         ],
         "filter": {
           "name": "graphql_rust_test",
