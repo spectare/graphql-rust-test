@@ -13,7 +13,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: project-cache
+          key: spectare-rust-test-cache
       - run:
           name: Setup build environment
           command: |
@@ -34,32 +34,14 @@ jobs:
             rustup component add clippy
             cargo clippy --all -- -D warnings
       - run:
-          name: Test
-          command: |
-            export PATH=~/.cargo/bin:$PATH
-            export RUST_BACKTRACE=1
-            cargo test
-      - run:
-          name: Coverage
+          name: Test and Coverage
           command: |
             export PATH=~/.cargo/bin:$PATH
             cargo install cargo-tarpaulin
-            cargo tarpaulin --out Xml
+            cargo tarpaulin -v --out Xml
             bash <(curl -s https://codecov.io/bash)
-      # - run:
-      #     name: Coverage
-      #     command: |
-      #       export PATH=~/.cargo/bin:$PATH
-      #       # install kcov
-      #       cargo install cargo-kcov
-      #       cargo kcov --print-install-kcov-sh | sh
-      #       echo "Install kcov successfully"
-      #       # coverage
-      #       cargo kcov --all -v
-      #       bash <(curl -s https://codecov.io/bash)
-      #       echo "Upload code coverage successfully"
       - save_cache:
-          key: project-cache
+          key: spectare-rust-test-cache
           paths:
             - "~/.cargo"
             - "./target"
