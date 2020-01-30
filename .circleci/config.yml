@@ -18,7 +18,7 @@ jobs:
           name: Setup build environment
           command: |
             sudo apt-get update
-            sudo apt-get install -y cmake binutils-dev libcurl4-openssl-dev libiberty-dev libelf-dev libdw-dev python3
+            sudo apt-get install -y cmake binutils-dev libcurl4-openssl-dev libiberty-dev libelf-dev libdw-dev libssl-dev pkg-config zlib1g-dev
             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path --default-toolchain stable -y;
           no_output_timeout: 1800s
       - run:
@@ -43,14 +43,20 @@ jobs:
           name: Coverage
           command: |
             export PATH=~/.cargo/bin:$PATH
-            # install kcov
-            cargo install cargo-kcov
-            cargo kcov --print-install-kcov-sh | sh
-            echo "Install kcov successfully"
-            # coverage
-            cargo kcov --all -v
-            bash <(curl -s https://codecov.io/bash)
-            echo "Upload code coverage successfully"
+            cargo install cargo-tarpaulin
+            cargo tarpaulin -v  
+      # - run:
+      #     name: Coverage
+      #     command: |
+      #       export PATH=~/.cargo/bin:$PATH
+      #       # install kcov
+      #       cargo install cargo-kcov
+      #       cargo kcov --print-install-kcov-sh | sh
+      #       echo "Install kcov successfully"
+      #       # coverage
+      #       cargo kcov --all -v
+      #       bash <(curl -s https://codecov.io/bash)
+      #       echo "Upload code coverage successfully"
       - save_cache:
           key: project-cache
           paths:
