@@ -71,17 +71,16 @@ mod tests {
         let schema = std::sync::Arc::new(create_schema());
 
         let graphql_query = json!({ "query": "{ human(id: \"1234\") { name } }" });
-      
+
         let mut app = test::init_service(
-          App::new()
-            .data(schema.clone())
-            .service(web::resource("/graphql").route(web::post().to(graphql)))
+            App::new()
+                .data(schema.clone())
+                .service(web::resource("/graphql").route(web::post().to(graphql))),
         )
         .await;
 
         let req = test::TestRequest::post()
-
-        .uri("/graphql")
+            .uri("/graphql")
             .set_json(&graphql_query)
             .to_request();
 
@@ -101,7 +100,7 @@ mod tests {
 
         let p: Value = serde_json::from_str(body_str).unwrap();
         println!("Value : {:?}", p);
-        
+
         assert_eq!(p["data"]["human"]["name"], json!("Luke"));
 
         Ok(())
