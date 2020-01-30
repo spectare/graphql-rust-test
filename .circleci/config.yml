@@ -52,10 +52,10 @@ jobs:
             bash <(curl -s https://codecov.io/bash)
             echo "Upload code coverage successfully"
       - save_cache:
-        key: project-cache
-        paths:
-          - "~/.cargo"
-          - "./target"
+          key: project-cache
+          paths:
+            - "~/.cargo"
+            - "./target"
       
 workflows:
   version: 2.1
