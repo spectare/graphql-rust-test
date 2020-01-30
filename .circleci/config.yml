@@ -44,7 +44,8 @@ jobs:
           command: |
             export PATH=~/.cargo/bin:$PATH
             cargo install cargo-tarpaulin
-            cargo tarpaulin -v  
+            cargo tarpaulin --out Xml
+            bash <(curl -s https://codecov.io/bash)
       # - run:
       #     name: Coverage
       #     command: |
